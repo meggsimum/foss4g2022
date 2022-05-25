@@ -1,0 +1,28 @@
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  font-family: "Lato", sans-serif;
+  text-transform: none;
+}
+
+
+.reveal a, .reveal .controls {
+    color: #d40a2a;
+}
+
+.slide {
+    background-image: url(../img/meggsimum-icon-rw-150.png);
+    background-repeat: no-repeat;
+    background-position: 1% 99% ;
+}
+
+.screenie-h2 {
+  position: fixed;
+  top: 0;
+  text-align: center;
+  width: 100%;
+}

@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="de">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no" />
+    <meta name="author" content="Jakob Miksch" />
+    <title> Configure GeoServer with geoserver-node-client | FOSS4G 2022</title>
+    <meta name="description" content="Umweltdaten mit Microservices verarbeiten
+      und veröffentlichen | FOSS4G 2022" />
+    <link rel="stylesheet" href="../shared/reveal.js-3.6.0/css/reveal.css" />
+    <link rel="stylesheet" href="../shared/reveal.js-3.6.0/css/theme/white.css"
+      />
+
+    <link href="https://fonts.googleapis.com/css?family=Fjalla+One|Cantarell"
+      rel="stylesheet">
+    <link rel="stylesheet" href="../shared/css/customized.css" />
+    <link rel="stylesheet" href="../shared/css/meggsimum.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../shared/reveal.js-3.6.0/lib/css/zenburn.css"
+      />
+
+    <!-- Printing and PDF exports -->
+    <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ?
+      '../shared/reveal.js-3.6.0/css/print/pdf.css' :
+      '../shared/reveal.js-3.6.0/css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+
+    if (window.location.search.match(/print-pdf/gi)) {
+      var linkCustomPrint = document.createElement('link');
+      linkCustomPrint.rel = 'stylesheet';
+      linkCustomPrint.type = 'text/css';
+      linkCustomPrint.href = '../shared/css/meggsimum-print.css';
+      document.getElementsByTagName('head')[0].appendChild(linkCustomPrint);
+    }
+  </script>
+  </head>
+
+  <body>
+
+    <!-- BEGIN OF SLIDES -->
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <img src="../geoserver-node-client/img/gs-node.svg"
+            style="background:none; border:none; box-shadow:none;">
+          <h4>
+            Configure GeoServer with <br>
+            geoserver-node-client
+          </h4>
+          <p>
+            <small>Jakob Miksch, Christian Mayer</small>
+            <br>
+            <small>meggsimum - Büro für Geoinformatik</small>
+          </p>
+          <p>
+            <span style="font-size: large;">Firence, FOSS4G 2022</span>
+          </p>
+        </section>
+
+        <section id="author-jakob-miksch">
+          <h2>Jakob Miksch</h2>
+          <div class="split-info">
+            <div class="part" style="width:35%">
+              <img src="../shared/img/jakob-miksch.jpg" class="plain"
+                width="200" /><br />
+              <small>
+                <a class="email" href="mailto:jakob@meggsimum">jakob@meggsimum.de</a><br
+                  />
+                <a class="github" href="https://github.com/jakobmiksch">@jakobmiksch</a><br
+                  />
+                <a class="twitter" href="https://twitter.com/jakobmiksch">@jakobmiksch</a><br
+                  />
+              </small><br />
+            </div>
+            <div class="part" style="width:60%">
+              <div class="enumeration">
+                <ul>
+                  <li>geospatial developer</li>
+                  <li>OSGeo Foundation Charter Member</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div style="clear:both"></div>
+        </section>
+
+        <section id="author-christian-mayer">
+          <h2>Christian Mayer</h2>
+          <div class="split-info">
+            <div class="part" style="width:35%">
+              <img src="../shared/img/chris-mayer.jpg" class="plain" width="200"
+                /><br />
+              <small>
+                <a class="email" href="mailto:chris@meggsimum">chris@meggsimum.de</a><br
+                  />
+                <a class="github" href="https://github.com/chrismayer/">@chrismayer</a><br
+                  />
+                <a class="twitter" href="https://twitter.com/geofootballer/">@geofootballer</a><br
+                  />
+              </small><br />
+            </div>
+            <div class="part" style="width:60%">
+              <div class="enumeration">
+                <ul>
+                  <li>geospatial software developer and architect</li>
+                  <li>core developer of several OS GIS projects (GeoStyler,
+                    GeoExt, ...)</li>
+                  <li>presenter &amp; trainer <br /> national &amp;
+                    international</li>
+                  <li>OSGeo Foundation Charter Member</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div style="clear:both"></div>
+        </section>
+
+
+        <section id="about-company-meggsimum">
+          <h2>meggsimum</h2>
+          <div class="split-info">
+            <div class="part" style="width:35%">
+              <img src="../shared/img/meggsimum-logo.png" class="plain"
+                width="400" />
+              <br /><small>
+                <a class="email" href="mailto:info@meggsimum.de">info@meggsimum.de</a><br
+                  />
+                <a class="github" href="https://github.com/meggsimum/">@meggsimum</a><br
+                  />
+                <a class="twitter" href="https://twitter.com/meggsimum/">@meggsimum</a>
+              </small>
+            </div>
+            <div class="part" style="width:60%">
+              <div class="enumeration">
+                <ul>
+                  <li><a href="https://meggsimum.de/" target="_blank">meggsimum.de</a></li>
+                  <li>services in the field of GIS, webmapping & SDI</li>
+                  <li>tailored WebGIS solutions</li>
+                  <li>software development</li>
+                  <li>geodata</li>
+                  <li>consulting and training</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div style="clear:both"></div>
+        </section>
+
+        <section>
+          <img src="../geoserver-node-client/img/geoserver-logo-text.svg"
+            style="background:none; border:none; box-shadow:none;">
+
+          <ul>
+            <li>server software for geospatial data</li>
+            <li>reads most geodata formats</li>
+            <li>publishes geodata in many standards: WMS, WFS, WCS, TMS, WMTS,
+              ... </li>
+            <li>established plugins ecosystem</li>
+            <li>configuration via user interface and REST API</li>
+          </ul>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            # REST
+
+            - popular way to design an API
+            - works via HTTP
+            - usable with virtually any programming language
+
+            Example:
+            ```
+            http://example.com/geoserver/rest/about/version
+            ```
+
+          </textarea>
+
+        </section>
+
+        <section>
+          <img src="../geoserver-node-client/img/nodejs-logo.svg"
+            style="background:none; border:none; box-shadow:none;"
+            height="300px">
+          <ul>
+            <li>JavaScript runtime for back-end (server)</li>
+            <li>rich package ecosystem</li>
+            <li>wide spread</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>GeoServer Node Client</h2>
+          <img src="../geoserver-node-client/img/gs-node.svg"
+            style="background:none; border:none; box-shadow:none;">
+          <ul>
+            <li>JavaScript functions wrapping GeoServer REST calls</li>
+            <li>implements many common use cases</li>
+            <li>useful for automation - tested in production</li>
+          </ul>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## Links
+
+            - [GeoServer](https://geoserver.org/)
+            - [geoserver-node-client](https://github.com/meggsimum/geoserver-node-client)
+            (GitHub)
+            - [meggsimum company](https://meggsimum.de/)
+
+          </textarea>
+        </section>
+
+        <section>
+          <h2>Imprint</h2>
+          <h4>Authors</h4>
+          <div style="">
+            <address style="">
+              <strong>Jakob Miksch, Christian Mayer</strong><br />
+              <span style="font-size: smaller;">
+                meggsimum - Büro für Geoinformatik (Christian Mayer)<br />
+                Schillerstraße 2a<br />
+                67122 Mutterstadt<br />
+                <a href="mailto:info@meggsimum.de">info@meggsimum.de</a>
+              </span>
+            </address>
+          </div>
+          <h4 style="margin-top: 20px;">License</h4>
+          <p id="license">
+            The slides are published under <a
+              href="http://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA</a>
+          </p>
+
+          <p>
+            <a
+              href="https://meggsimum.github.io/foss4g2022/geoserver-node-client">slides</a>,
+            <!--
+              TODO: <a href="https://meggsimum.github.io/foss4g2022/geoserver-node-client/geoserver-node-client.pdf">PDF-Version</a>,
+            -->
+            <a href="https://github.com/meggsimum/foss4g2022">git repository</a>
+          </p>
+
+        </section>
+
+      </div>
+    </div>
+
+
+    <!-- END OF SLIDES -->
+
+
+    <script src="../shared/reveal.js-3.6.0/lib/js/head.min.js"></script>
+    <script src="../shared/reveal.js-3.6.0/js/reveal.js"></script>
+    <script>
+    (function () {
+      var revealPath = '../shared/reveal.js-3.6.0/';
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          {
+            src: revealPath + 'plugin/markdown/marked.js'
+          },
+          {
+            src: revealPath + 'plugin/markdown/markdown.js'
+          },
+          {
+            src: revealPath + 'plugin/notes/notes.js',
+            async: true
+          },
+          {
+            src: revealPath + 'plugin/highlight/highlight.js',
+            async: true,
+            callback: function () {
+              hljs.initHighlightingOnLoad();
+            }
+          }
+        ]
+      });
+    }());
+  </script>
+  </body>
+
+</html>
